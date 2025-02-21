@@ -2636,7 +2636,6 @@ do
 			return Watermark
 		end
 		--
-		local once = false
 		function Library:Settings(tab)
 			local cfgs = tab:Section({Name = "Config", Side = "Left", Size = 427})
 			local window = tab:Section({Name = "Window", Side = "Right", Size = 427})
@@ -2647,28 +2646,25 @@ do
 	
 			local current_list = {}
 			
-			if not once then
-				if not isfolder(Library.cheatname) then 
-					makefolder(Library.cheatname)
-				end
-	
-				if not isfolder(Library.cheatname..'/'..Library.gamename) then 
-					makefolder(Library.cheatname..'/'..Library.gamename)
-				end
-		
-				if not isfolder(Library.cheatname..'/'..Library.gamename.."/configs") then 
-					makefolder(Library.cheatname..'/'..Library.gamename.."/configs")
-				end
+			if not isfolder(Library.cheatname) then 
+				makefolder(Library.cheatname)
 			end
-			once = true
+
+			if not isfolder(Library.cheatname..'/'..Library.gamename) then 
+				makefolder(Library.cheatname..'/'..Library.gamename)
+			end
+	
+			if not isfolder(Library.cheatname..'/'..Library.gamename.."/configs") then 
+				makefolder(Library.cheatname..'/'..Library.gamename.."/configs")
+			end
 	
 			local function update_config_list()
 				local list = {}
 			
 				for idx, file in listfiles(Library.cheatname..'/'..Library.gamename.."/configs") do
-					local file_name = file:gsub(Library.cheatname..'/'..Library.gamename.."/configs".."\\", ""):gsub(Library.fileext, ""):gsub(Library.cheatname..'/'..Library.gamename.."/configs".."/configs/", "")
+					local file_name = file:match("([^\\/]+)$"):gsub(Library.fileext, "")
 					list[#list + 1] = file_name
-				end
+				end				
 			
 				local is_new = #list ~= #current_list
 			
