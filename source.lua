@@ -2684,7 +2684,7 @@ do
 			end;
 	
 			cfgs:Button({Name = "Create", Callback = function()
-				local config_name = Library.flags.settings_configuration_name;
+				local config_name = Library.Flags.settings_configuration_name;
 				if config_name == "" or isfile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. config_name .. Library.fileext) then
 					return;
 				end;
@@ -2693,21 +2693,21 @@ do
 			end});
 	
 			cfgs:Button({Name = "Save", Callback = function()
-				local selected_config = Library.flags.setting_configuration_list;
+				local selected_config = Library.Flags.setting_configuration_list;
 				if selected_config then
 					writefile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext, Library:GetConfig());
 				end;
 			end});
 	
 			cfgs:Button({Name = "Load", Callback = function()
-				local selected_config = Library.flags.setting_configuration_list;
+				local selected_config = Library.Flags.setting_configuration_list;
 				if selected_config then
 					Library:LoadConfig(readfile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext));
 				end;
 			end});
 	
 			cfgs:Button({Name = "Delete", Callback = function()
-				local selected_config = Library.flags.setting_configuration_list;
+				local selected_config = Library.Flags.setting_configuration_list;
 				if selected_config then
 					delfile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext);
 				end;
