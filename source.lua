@@ -4,19 +4,19 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
-local Library = {};
+local Library = {}
 do
 	Library = {
-		Open = true;
-		Pages = {};
-		Sections = {};
-		Flags = {};
-		UnNamedFlags = 0;
-		ThemeObjects = {};
-		Instances = {};
-		Holder = nil;
-		OldSize = nil;
-		ScreenGUI = nil;
+		Open = true,
+		Pages = {},
+		Sections = {},
+		Flags = {},
+		UnNamedFlags = 0,
+		ThemeObjects = {},
+		Instances = {},
+		Holder = nil,
+		OldSize = nil,
+		ScreenGUI = nil,
 		DropdownOpen = false,
 		OptionListOpen = false,
 		Accent = startupArgs.color or Color3.fromRGB(79, 155, 255),
@@ -75,12 +75,12 @@ do
 			[Enum.UserInputType.MouseButton1] = "MB1",
 			[Enum.UserInputType.MouseButton2] = "MB2",
 			[Enum.UserInputType.MouseButton3] = "MB3"
-		};
-		Connections = {};
-		FontSize = 12;
-		VisValues = {};
-		UIKey = Enum.KeyCode.Insert;
-		Notifs = {};
+		},
+		Connections = {},
+		FontSize = 12,
+		VisValues = {},
+		UIKey = Enum.KeyCode.RightShift,
+		Notifs = {},
 	}
 
 	-- // Ignores
@@ -92,8 +92,8 @@ do
 	Library.__index = Library
 	Library.Pages.__index = Library.Pages
 	Library.Sections.__index = Library.Sections
-	local LocalPlayer = game:GetService('Players').LocalPlayer;
-	local Mouse = LocalPlayer:GetMouse();
+	local LocalPlayer = game:GetService('Players').LocalPlayer
+	local Mouse = LocalPlayer:GetMouse()
 	local Players = game:GetService("Players")
 	local TweenService = game:GetService("TweenService")
 
@@ -228,7 +228,7 @@ do
 		--
 		function Library:SetOpen(bool)
 			if typeof(bool) == 'boolean' then
-				Library.Open = bool;
+				Library.Open = bool
 				if Library.Open then
 					Library.Holder.Visible = true
 					--game:GetService("TweenService"):Create(Library.Holder, TweenInfo.new(0.25, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Size = UDim2.new(0, Library.OldSize.X.Offset,0,40)}):Play()
@@ -240,7 +240,7 @@ do
 					Library.Holder.Visible = false
 				end
 			end
-		end;
+		end
 		--
 		function Library:ChangeAccent(Color)
 			Library.Accent = Color
@@ -257,16 +257,16 @@ do
 		end
 		--
 		function Library:IsMouseOverFrame(Frame)
-			local AbsPos, AbsSize = Frame.AbsolutePosition, Frame.AbsoluteSize;
+			local AbsPos, AbsSize = Frame.AbsolutePosition, Frame.AbsoluteSize
 
 			if Mouse.X >= AbsPos.X and Mouse.X <= AbsPos.X + AbsSize.X
 				and Mouse.Y >= AbsPos.Y and Mouse.Y <= AbsPos.Y + AbsSize.Y then
 
-				return true;
-			end;
+				return true
+			end
 
-			return false;
-		end;
+			return false
+		end
 	end
 
 	-- // Colorpicker Element
@@ -539,7 +539,7 @@ do
 								TweenService:Create(V, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {TextTransparency = 1}):Play()
 								Library.VisValues[V] = V.TextTransparency
 							elseif V:IsA("ImageLabel") or V:IsA("ImageButton") then
-								TweenService:Create(V, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {ImageTransparency = 1}):Play();
+								TweenService:Create(V, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {ImageTransparency = 1}):Play()
 								Library.VisValues[V] = V.ImageTransparency
 							elseif V:IsA("UIStroke") then
 								TweenService:Create(V, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {Transparency = 1}):Play()
@@ -565,7 +565,7 @@ do
 					elseif V:IsA("TextLabel") or V:IsA("TextBox") then
 						TweenService:Create(V, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {TextTransparency = Library.VisValues[V]}):Play()
 					elseif V:IsA("ImageLabel") or V:IsA("ImageButton") then
-						TweenService:Create(V, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {ImageTransparency = Library.VisValues[V]}):Play();
+						TweenService:Create(V, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {ImageTransparency = Library.VisValues[V]}):Play()
 					elseif V:IsA("UIStroke") then
 						TweenService:Create(V, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {Transparency = 0}):Play()
 					end
@@ -715,8 +715,8 @@ do
 
 	-- // Main
 	do
-		local Pages = Library.Pages;
-		local Sections = Library.Sections;
+		local Pages = Library.Pages
+		local Sections = Library.Sections
 		--
 		function Library:New(Properties)
 			if not Properties then
@@ -1356,7 +1356,7 @@ do
 				end)
 				--
 				Library:Connection(game:GetService("UserInputService").InputBegan, function(Input)
-					if (Library.DropdownOpen) then return end;
+					if (Library.DropdownOpen) then return end
 					
 					if OptionList.Visible and Input.UserInputType == Enum.UserInputType.MouseButton1 then
 						if not Library:IsMouseOverFrame(OptionList) and not Library:IsMouseOverFrame(OptionButton) then
@@ -1660,7 +1660,7 @@ do
 		end
 		--
 		function Sections:List(Properties)
-			local Properties = Properties or {};
+			local Properties = Properties or {}
 			local Dropdown = {
 				Window = self.Window,
 				Page = self.Page,
@@ -2298,8 +2298,8 @@ do
 					Keybind.Binding = Library:Connection(
 						game:GetService("UserInputService").InputBegan,
 						function(input, gpe)
-							if gpe then return end; 
-							if input.UserInputType == Enum.UserInputType.Touch then return end;
+							if gpe then return end 
+							if input.UserInputType == Enum.UserInputType.Touch then return end
 
 
 							set(
@@ -2316,7 +2316,7 @@ do
 			end)
 			--
 			Library:Connection(game:GetService("UserInputService").InputBegan, function(inp, gpe)
-				if (gpe) then return end;
+				if (gpe) then return end
 
 				if (inp.KeyCode == Key or inp.UserInputType == Key) and not Keybind.Binding and not Keybind.UseKey then
 					if Keybind.Mode == "Hold" then
@@ -2339,7 +2339,7 @@ do
 			end)
 			--
 			Library:Connection(game:GetService("UserInputService").InputEnded, function(inp, gpe)
-				if gpe then return end;
+				if gpe then return end
 
 				if Keybind.Mode == "Hold" and not Keybind.UseKey then
 					if Key ~= "" or Key ~= nil then
@@ -2545,8 +2545,8 @@ do
 		--
 		function Library:Watermark(Properties)
 			local Watermark = {
-				Name = (Properties.Name or Properties.name or Library.cheatname..' '..Library.gamename);
-				AnimateText = nil;
+				Name = (Properties.Name or Properties.name or Library.cheatname..' '..Library.gamename),
+				AnimateText = nil
 			}
 			--
 			local Outline = Instance.new("Frame")
@@ -2612,125 +2612,143 @@ do
 			task.spawn(function()
 				while task.wait() do
 					for i = 1, #Library.cheatname..' '..Library.gamename do
-						Watermark.AnimateText = string.sub(Library.cheatname..' '..Library.gamename, 1, i) .. "";
-						Title.Text = Watermark.AnimateText .. " " .. Watermark.Name;
-						task.wait(0.4);
-					end;
+						Watermark.AnimateText = string.sub(Library.cheatname..' '..Library.gamename, 1, i) .. ""
+						Title.Text = Watermark.AnimateText .. " " .. Watermark.Name
+						task.wait(0.4)
+					end
 
 					for i = #Library.cheatname..' '..Library.gamename - 1, 1, -1 do
-						Watermark.AnimateText = string.sub(Library.cheatname..' '..Library.gamename, 1, i) .. "";
-						Title.Text = Watermark.AnimateText .. " " .. Watermark.Name;
-						task.wait(0.4);
-					end;
-				end;
+						Watermark.AnimateText = string.sub(Library.cheatname..' '..Library.gamename, 1, i) .. ""
+						Title.Text = Watermark.AnimateText .. " " .. Watermark.Name
+						task.wait(0.4)
+					end
+				end
 			end)
 			-- // Functions
 			function Watermark:UpdateText(NewText)
 				Watermark.Name = NewText
-				Title.Text = Watermark.AnimateText .. " " .. Watermark.Name;
-			end;
+				Title.Text = Watermark.AnimateText .. " " .. Watermark.Name
+			end
 			function Watermark:SetVisible(State)
-				Outline.Visible = State;
-			end;
+				Outline.Visible = State
+			end
 
 			return Watermark
 		end
 		--
+		local once = false
 		function Library:Settings(tab)
-			local cfgs = tab:Section({Name = "Config", Side = "Left", Size = 427});
-			local window = tab:Section({Name = "Window", Side = "Right", Size = 427});
-			local watermark = Library:Watermark({Name = Library.cheatname..Library.gamename});
+			local cfgs = tab:Section({Name = "Config", Side = "Left", Size = 427})
+			local window = tab:Section({Name = "Window", Side = "Right", Size = 427})
+			local watermark = Library:Watermark({Name = Library.cheatname..Library.gamename})
 
-			local cfg_list = cfgs:List({Name = "Config List", Flag = "setting_configuration_list", Options = {}});
-			cfgs:Textbox({Flag = "settings_configuration_name", Placeholder = "Config name"});
+			local cfg_list = cfgs:List({Name = "Config List", Flag = "setting_configuration_list", Options = {}})
+			cfgs:Textbox({Flag = "settings_configuration_name", Placeholder = "Config name"})
 	
-			local current_list = {};
+			local current_list = {}
+			
+			if not once then
+				if not isfolder(Library.cheatname) then 
+					makefolder(Library.cheatname)
+				end
 	
-			if not isfolder(Library.cheatname) then 
-				makefolder(Library.cheatname);
-			end;
-
-			if not isfolder(Library.cheatname..'/'..Library.gamename) then 
-				makefolder(Library.cheatname..'/'..Library.gamename);
-			end;
-	
-			if not isfolder(Library.cheatname..'/'..Library.gamename.."/configs") then 
-				makefolder(Library.cheatname..'/'..Library.gamename.."/configs");
-			end;
+				if not isfolder(Library.cheatname..'/'..Library.gamename) then 
+					makefolder(Library.cheatname..'/'..Library.gamename)
+				end
+		
+				if not isfolder(Library.cheatname..'/'..Library.gamename.."/configs") then 
+					makefolder(Library.cheatname..'/'..Library.gamename.."/configs")
+				end
+			end
+			once = true
 	
 			local function update_config_list()
-				local list = {};
+				local list = {}
 			
 				for idx, file in listfiles(Library.cheatname..'/'..Library.gamename.."/configs") do
-					local file_name = file:gsub(Library.cheatname..'/'..Library.gamename.."/configs".."\\", ""):gsub(Library.fileext, ""):gsub(Library.cheatname..'/'..Library.gamename.."/configs".."/configs/", "");
-					list[#list + 1] = file_name;
-				end;
+					local file_name = file:gsub(Library.cheatname..'/'..Library.gamename.."/configs".."\\", ""):gsub(Library.fileext, ""):gsub(Library.cheatname..'/'..Library.gamename.."/configs".."/configs/", "")
+					list[#list + 1] = file_name
+				end
 			
-				local is_new = #list ~= #current_list;
+				local is_new = #list ~= #current_list
 			
 				if not is_new then
 					for idx = 1, #list do
 						if list[idx] ~= current_list[idx] then
-							is_new = true;
-							break;
-						end;
-					end;
-				end;
+							is_new = true
+							break
+						end
+					end
+				end
 			
 				if is_new then
-					current_list = list;
-					cfg_list:Refresh(current_list);
-				end;
-			end;
+					current_list = list
+					cfg_list:Refresh(current_list)
+				end
+			end
 	
 			cfgs:Button({Name = "Create", Callback = function()
-				local config_name = Library.Flags.settings_configuration_name;
+				local config_name = Library.Flags.settings_configuration_name
 				if config_name == "" or isfile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. config_name .. Library.fileext) then
-					return;
-				end;
-				writefile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. config_name .. Library.fileext, Library:GetConfig());
-				update_config_list();
-			end});
+					return
+				end
+				writefile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. config_name .. Library.fileext, Library:GetConfig())
+				update_config_list()
+			end})
 	
 			cfgs:Button({Name = "Save", Callback = function()
-				local selected_config = Library.Flags.setting_configuration_list;
+				local selected_config = Library.Flags.setting_configuration_list
 				if selected_config then
-					writefile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext, Library:GetConfig());
-				end;
-			end});
+					writefile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext, Library:GetConfig())
+				end
+			end})
 	
 			cfgs:Button({Name = "Load", Callback = function()
-				local selected_config = Library.Flags.setting_configuration_list;
+				local selected_config = Library.Flags.setting_configuration_list
 				if selected_config then
-					Library:LoadConfig(readfile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext));
-				end;
-			end});
+					Library:LoadConfig(readfile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext))
+				end
+			end})
 	
 			cfgs:Button({Name = "Delete", Callback = function()
-				local selected_config = Library.Flags.setting_configuration_list;
+				local selected_config = Library.Flags.setting_configuration_list
 				if selected_config then
-					delfile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext);
-				end;
-				update_config_list();
-			end});
+					delfile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext)
+				end
+				update_config_list()
+			end})
 	
 			cfgs:Button({Name = "Refresh", Callback = function()
-				update_config_list();
-			end});
+				update_config_list()
+			end})
 	
-			update_config_list();
+			update_config_list()
 
 			window:Keybind({Name = "UI Toggle", Flag = "ui_toggle", Default = Enum.KeyCode.RightShift, UseKey = true, Callback = function(key)
-				Library.UIKey = key;
-			end});
+				Library.UIKey = key
+			end})
 	
 			window:Toggle({Name = "Watermark", Flag = "ui_watermark", Callback = function(state)
-				watermark:SetVisible(state);
-			end});
+				watermark:SetVisible(state)
+			end})
 	
 			window:Colorpicker({Name = "Menu Accent", Flag = "MenuAccent", Default = Library.Accent, Callback = function(state)
-				Library:ChangeAccent(state);
-			end});
+				Library:ChangeAccent(state)
+			end})
+
+			window:Button({Name = "Rejoin Server", Callback = function()
+				Players.LocalPlayer:Kick('['..Library.cheatname..']'..' Rejoining Server')
+				game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId);
+			end})
+
+			window:Button({Name = "Rejoin Game", Callback = function()
+				Players.LocalPlayer:Kick('['..Library.cheatname..']'..' Rejoining Game')
+				game:GetService("TeleportService"):Teleport(game.PlaceId);
+			end})
+
+			window:Button({Name = "Remove Voice Chat Ban", Callback = function()
+				game:GetService("VoiceChatService"):joinVoice()
+			end})
 		end
 		--
 	end
