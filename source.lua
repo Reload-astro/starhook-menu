@@ -2636,6 +2636,103 @@ do
 			return Watermark
 		end
 		--
+		function Library:Settings(tab)
+			local cfgs = tab:Section({Name = "Config", Side = "Left", Size = 427});
+			local window = tab:Section({Name = "Window", Side = "Right", Size = 427});
+			local watermark = Library:Watermark({Name = Library.cheatname..Library.gamename});
+
+			local cfg_list = cfgs:List({Name = "Config List", Flag = "setting_configuration_list", Options = {}});
+			cfgs:Textbox({Flag = "settings_configuration_name", Placeholder = "Config name"});
+	
+			local current_list = {};
+	
+			if not isfolder(Library.cheatname) then 
+				makefolder(Library.cheatname);
+			end;
+
+			if not isfolder(Library.cheatname..'/'..Library.gamename) then 
+				makefolder(Library.cheatname..'/'..Library.gamename);
+			end;
+	
+			if not isfolder(Library.cheatname..'/'..Library.gamename.."/configs") then 
+				makefolder(Library.cheatname..'/'..Library.gamename.."/configs");
+			end;
+	
+			local function update_config_list()
+				local list = {};
+			
+				for idx, file in listfiles(Library.cheatname..'/'..Library.gamename.."/configs") do
+					local file_name = file:gsub(Library.cheatname..'/'..Library.gamename.."/configs".."\\", ""):gsub(Library.fileext, ""):gsub(Library.cheatname..'/'..Library.gamename.."/configs".."/configs/", "");
+					list[#list + 1] = file_name;
+				end;
+			
+				local is_new = #list ~= #current_list;
+			
+				if not is_new then
+					for idx = 1, #list do
+						if list[idx] ~= current_list[idx] then
+							is_new = true;
+							break;
+						end;
+					end;
+				end;
+			
+				if is_new then
+					current_list = list;
+					cfg_list:Refresh(current_list);
+				end;
+			end;
+	
+			cfgs:Button({Name = "Create", Callback = function()
+				local config_name = Library.flags.settings_configuration_name;
+				if config_name == "" or isfile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. config_name .. Library.fileext) then
+					return;
+				end;
+				writefile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. config_name .. Library.fileext, Library:GetConfig());
+				update_config_list();
+			end});
+	
+			cfgs:Button({Name = "Save", Callback = function()
+				local selected_config = Library.flags.setting_configuration_list;
+				if selected_config then
+					writefile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext, Library:GetConfig());
+				end;
+			end});
+	
+			cfgs:Button({Name = "Load", Callback = function()
+				local selected_config = Library.flags.setting_configuration_list;
+				if selected_config then
+					Library:LoadConfig(readfile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext));
+				end;
+			end});
+	
+			cfgs:Button({Name = "Delete", Callback = function()
+				local selected_config = Library.flags.setting_configuration_list;
+				if selected_config then
+					delfile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext);
+				end;
+				update_config_list();
+			end});
+	
+			cfgs:Button({Name = "Refresh", Callback = function()
+				update_config_list();
+			end});
+	
+			update_config_list();
+
+			window:Keybind({Name = "UI Toggle", Flag = "ui_toggle", Default = Enum.KeyCode.RightShift, UseKey = true, Callback = function(key)
+				Library.UIKey = key;
+			end});
+	
+			window:Toggle({Name = "Watermark", Flag = "ui_watermark", Callback = function(state)
+				watermark:SetVisible(state);
+			end});
+	
+			window:Colorpicker({Name = "Menu Accent", Flag = "MenuAccent", Default = Library.Accent, Callback = function(state)
+				Library:ChangeAccent(state);
+			end});
+		end
+		--
 	end
 end
 
