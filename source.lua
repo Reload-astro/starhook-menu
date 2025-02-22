@@ -758,10 +758,21 @@ do
 			local Tabs = Instance.new('Frame', Inline)
 			local UIListLayout = Instance.new('UIListLayout', Tabs)
 			local TextButton = Instance.new('TextButton', Inline)
+			local Glow = Instance.new('ImageLabel', Outline)
 			--
 			ScreenGui.DisplayOrder = 100
 			ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 			Library.ScreenGUI = ScreenGui
+			--
+			Glow.Name = "Glow"
+			Glow.BackgroundTransparency = 1
+			Glow.Position = UDim2.new(0.5,0,0.5,0)
+			Glow.Size = UDim2.new(0,0,0,40)
+			Glow.ZIndex = 0
+			Glow.Image = "rbxassetid://5028857084"
+			Glow.ImageColor3 = Library.Accent
+			Glow.ScaleType = Enum.ScaleType.Slice
+			Glow.SliceCenter = Rect.new(24, 24, 276, 276)
 			--
 			Outline.Name = "Outline"
 			Outline.Position = UDim2.new(0.5,0,0.5,0)
