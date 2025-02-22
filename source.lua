@@ -2714,16 +2714,6 @@ do
 				end
 			end})
 	
-			cfgs:Button({Name = "Delete", Callback = function()
-				local selected_config = Library.Flags.setting_configuration_list
-				if selected_config then
-					if isfile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext) then
-						delfile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext)
-					end
-				end
-				update_config_list()
-			end})
-	
 			cfgs:Button({Name = "Refresh", Callback = function()
 				update_config_list()
 			end})
