@@ -83,6 +83,19 @@ do
 		Notifs = {},
 	}
 
+	-- // Make needed folders
+	if not isfolder(Library.cheatname) then 
+		makefolder(Library.cheatname)
+	end
+
+	if not isfolder(Library.cheatname..'/'..Library.gamename) then 
+		makefolder(Library.cheatname..'/'..Library.gamename)
+	end
+
+	if not isfolder(Library.cheatname..'/'..Library.gamename.."/configs") then 
+		makefolder(Library.cheatname..'/'..Library.gamename.."/configs")
+	end
+
 	-- // Ignores
 	local Flags = {} -- Ignore
 	local ColorHolders = {}
@@ -171,7 +184,8 @@ do
 			return Config
 		end
 		--
-		function Library:LoadConfig(Config)
+		function Library:LoadConfig(file)
+			local Config = readfile(file)
 			local Table = string.split(Config, "\n")
 			local Table2 = {}
 			for Index, Value in pairs(Table) do
@@ -2636,7 +2650,7 @@ do
 			return Watermark
 		end
 		--
-		function Library:Settings(tab)
+		function Library:Configs(tab)
 			local cfgs = tab:Section({Name = "Config", Side = "Left", Size = 427})
 			local window = tab:Section({Name = "Window", Side = "Right", Size = 427})
 			local watermark = Library:Watermark({Name = Library.cheatname..Library.gamename})
@@ -2645,18 +2659,6 @@ do
 			cfgs:Textbox({Flag = "settings_configuration_name", Placeholder = "Config name"})
 	
 			local current_list = {}
-			
-			if not isfolder(Library.cheatname) then 
-				makefolder(Library.cheatname)
-			end
-
-			if not isfolder(Library.cheatname..'/'..Library.gamename) then 
-				makefolder(Library.cheatname..'/'..Library.gamename)
-			end
-	
-			if not isfolder(Library.cheatname..'/'..Library.gamename.."/configs") then 
-				makefolder(Library.cheatname..'/'..Library.gamename.."/configs")
-			end
 	
 			local function update_config_list()
 				local list = {}
@@ -2688,28 +2690,36 @@ do
 				if config_name == "" or isfile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. config_name .. Library.fileext) then
 					return
 				end
-				writefile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. config_name .. Library.fileext, Library:GetConfig())
+				if not isfile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. config_name .. Library.fileext) then
+					writefile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. config_name .. Library.fileext, Library:GetConfig())
+				end
 				update_config_list()
 			end})
 	
 			cfgs:Button({Name = "Save", Callback = function()
 				local selected_config = Library.Flags.setting_configuration_list
 				if selected_config then
-					writefile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext, Library:GetConfig())
+					if isfile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext) then
+						writefile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext, Library:GetConfig())
+					end
 				end
 			end})
 	
 			cfgs:Button({Name = "Load", Callback = function()
 				local selected_config = Library.Flags.setting_configuration_list
 				if selected_config then
-					Library:LoadConfig(readfile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext))
+					if isfile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext) then
+						Library:LoadConfig(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext)
+					end
 				end
 			end})
 	
 			cfgs:Button({Name = "Delete", Callback = function()
 				local selected_config = Library.Flags.setting_configuration_list
 				if selected_config then
-					delfile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext)
+					if isfile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext) then
+						delfile(Library.cheatname..'/'..Library.gamename.."/configs".."/" .. selected_config .. Library.fileext)
+					end
 				end
 				update_config_list()
 			end})
